@@ -41,7 +41,7 @@ app.get("/", (_req, res) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Notes API</title>
+        <title>Notory</title>
         <style>
           body {
             font-family: 'Segoe UI', sans-serif;
@@ -72,7 +72,7 @@ app.get("/", (_req, res) => {
       </head>
       <body>
         <div class="container">
-          <h1>📒 Welcome to the Notes API</h1>
+          <h1>📒 Welcome to the Notory API</h1>
           <p>This is a simple REST API built with <strong>Express</strong> and <strong>LibSQL</strong>.</p>
           <p>Try creating a note via <code>POST /notes</code> or explore routes like <code>/users</code> and <code>/notes-with-authors</code>.</p>
           <p>Use a REST client like <em>VSCode REST Client</em> or <em>Postman</em> to interact.</p>
@@ -90,7 +90,7 @@ const PORT = process.env.PORT || 3000;
 (async () => {
   try {
     await connectMongo();
-    await connectTurso();
+    // await connectTurso();
     app.listen(PORT,"0.0.0.0", () => {
       console.log(`Server listening on port ${PORT} ✅`);
     });
