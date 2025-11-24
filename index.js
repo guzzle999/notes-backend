@@ -23,7 +23,7 @@ const corsOptions = {
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
-    "https://notory.vercel.app/",
+    "https://notory.vercel.app",
   ], // frontend domain
   credentials: true, // ✅ allow cookies to be sent
 };
@@ -85,7 +85,7 @@ app.get("/", (_req, res) => {
 // Centralized error handling
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 
 (async () => {
   try {
