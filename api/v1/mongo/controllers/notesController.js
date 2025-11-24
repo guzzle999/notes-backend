@@ -314,7 +314,7 @@ export const createNote = async (req, res) => {
     isPublic = false,
   } = req.body;
 
-  const userId = req.user.user._id; // Logged-in user's MongoDB _id
+  const userId = req.user?.user?._id; // Logged-in user's MongoDB _id
 
   if (!title || !content || !userId) {
     return res.status(400).json({
@@ -324,8 +324,14 @@ export const createNote = async (req, res) => {
   }
 
   try {
+    let embedding = null;
+
     // Generate embedding for the note content
-    const embedding = await generateEmbedding(content);
+    try {
+      const embedding = await generateEmbedding(content);
+    } catch (aiError) {
+      console.warn("Failed to generate embedding (Skipping):", aiError.message);
+    }
 
     const note = await Note.create({
       title,
@@ -334,7 +340,7 @@ export const createNote = async (req, res) => {
       isPinned,
       isPublic,
       userId,
-      // embedding, // Store the embedding
+      embedding, // Store the embedding
     });
 
     res

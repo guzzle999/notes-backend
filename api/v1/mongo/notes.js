@@ -30,11 +30,8 @@ const router = express.Router();
 // 📋 GET ALL NOTES (regardless of user)
 router.get("/notes", getAllNotes);
 
-router.post("/notes", createNote);
 
-// ❌ Use these routes after implimenting auth
-// Add Note
-// router.post("/add-note", authUser, addNote);
+// ✅ PROTECTED ROUTES (ต้อง Login)
 router.post("/add-note", authUser, createNote);
 
 // Edit Note
@@ -246,7 +243,7 @@ router.post("/answer-question/:userId", async (req, res) => {
 });
 
 // Answer a question based on a user's notes, using vector search
-router.post("/answer-question/:userId", async (req, res) => {
+router.post("/answer-question-vector/:userId", async (req, res) => {
   const { userId } = req.params;
   const { question } = req.body;
 
