@@ -91,33 +91,16 @@ const PORT = process.env.PORT || 3030;
 const startServer = async () => {
   try {
     await connectMongo();
-    console.log("✅ Database connected");
-  } catch (err)  {
-    console.error("❌ Database connection error:", err);
+
+    app.listen(PORT,"0.0.0.0", () => {
+      console.log(`Server listening on port ${PORT} ✅`);
+    });
+  } catch (err) {
+    console.error("❌ Startup error:", err);
+    process.exit(1);
   }
 }
-
-if (process.env.NODE_ENV !== "production")  {
-  startServer().then(() => {
-    app.listen(PORT, () => {
-      console.log(`Local Server listening on port ${PORT}`);
-    })
-  })
-} else {
-  startServer();
-}
-// (async () => {
-//   try {
-//     await connectMongo();
-//     // await connectTurso();
-//     app.listen(PORT,"0.0.0.0", () => {
-//       console.log(`Server listening on port ${PORT} ✅`);
-//     });
-//   } catch (err) {
-//     console.error("❌ Startup error:", err);
-//     process.exit(1);
-//   }
-// })();
+startServer();
 
 // Handle unhandled promise rejections globally
 process.on("unhandledRejection", (err) => {
@@ -125,4 +108,3 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-export default app;
