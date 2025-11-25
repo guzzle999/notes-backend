@@ -340,7 +340,7 @@ export const createNote = async (req, res) => {
       isPinned,
       isPublic,
       userId,
-      embedding, // Store the embedding
+      // embedding, // Store the embedding
     });
 
     res
