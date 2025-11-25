@@ -16,6 +16,8 @@ const app = express();
 
 app.set("trust proxy", 1);
 
+app.set("etag", false);
+
 // Global middlewares
 app.use(helmet());
 
