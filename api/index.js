@@ -2,12 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
-import apiRoutes from "./api/v1/routes.js";
-import { connectMongo } from "./config/mongo.js";
-import { connectTurso, db } from "./config/turso.js";
-import limiter from "./middleware/rateLimiter.js";
-import errorHandler from "./middleware/errorHandler.js";
+import apiRoutes from "./v1/routes.js";
+import { connectMongo } from "../config/mongo.js";
+import { connectTurso, db } from "../config/turso.js";
+import limiter from "../middleware/rateLimiter.js";
+import errorHandler from "../middleware/errorHandler.js";
 import cookieParser from "cookie-parser";
+import { connect } from "mongoose";
 
 dotenv.config();
 
@@ -87,21 +88,41 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3030;
 
-(async () => {
+const startServer = async () => {
   try {
     await connectMongo();
-    // await connectTurso();
-    app.listen(PORT,"0.0.0.0", () => {
-      console.log(`Server listening on port ${PORT} ✅`);
-    });
-  } catch (err) {
-    console.error("❌ Startup error:", err);
-    process.exit(1);
+    console.log("✅ Database connected");
+  } catch (err)  {
+    console.error("❌ Database connection error:", err);
   }
-})();
+}
+
+if (process.env.NODE_ENV !== "production")  {
+  startServer().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Local Server listening on port ${PORT}`);
+    })
+  })
+} else {
+  startServer();
+}
+// (async () => {
+//   try {
+//     await connectMongo();
+//     // await connectTurso();
+//     app.listen(PORT,"0.0.0.0", () => {
+//       console.log(`Server listening on port ${PORT} ✅`);
+//     });
+//   } catch (err) {
+//     console.error("❌ Startup error:", err);
+//     process.exit(1);
+//   }
+// })();
 
 // Handle unhandled promise rejections globally
 process.on("unhandledRejection", (err) => {
   console.error("💥 Unhandled Rejection:", err.message);
   process.exit(1);
 });
+
+export default app;
