@@ -203,6 +203,8 @@ export const getUserNotes = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(limit);
 
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+
     return res.json({
       error: false,
       notes,
@@ -340,7 +342,7 @@ export const createNote = async (req, res) => {
       isPinned,
       isPublic,
       userId,
-      // embedding, // Store the embedding
+      embedding, // Store the embedding
     });
 
     res
